@@ -27,3 +27,5 @@ plotly==5.3.1
 dash-table==5.0.0
 tenacity==8.0.1
 Brotli==1.0.9
+ua-parser==0.10.0
+user-agents==2.2.0
