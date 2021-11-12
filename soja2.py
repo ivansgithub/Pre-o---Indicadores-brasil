@@ -42,6 +42,7 @@ tablo_rl_algodao=tabla_algodao[0]
 
 FONT_AWESOME = "https://use.fontawesome.com/releases/v5.7.2/css/all.css"
 app = dash.Dash(__name__,external_stylesheets=[dbc.themes.LUX,FONT_AWESOME])
+server=app.server
 
 
 
