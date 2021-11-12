@@ -1,1 +1,1 @@
-web: gunicorn soja2:app
+web: gunicorn soja2:server
