@@ -15,30 +15,159 @@ from fake_useragent import UserAgent
 ua = UserAgent()
 
 header = {'User-Agent':str(ua.chrome)}
-
 url_soja='https://www.cepea.esalq.usp.br/br/indicador/soja.aspx'
 
 tabla_soja=tabla_soja=pd.read_html(requests.get(url_soja,headers=header ).text)
 tablo_soja=tabla_soja[0]
 
+nuevos_numeros=[]
+for i in tablo_soja['Valor R$*']:
+    num = str(i)
+    num_str = (str(num))
+    a = int(len(num_str) / 3)
+        
+    nuevos_numeros.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
+tablo_soja['Valor R$*']=nuevos_numeros
+
+
+
+nuevos_numeros2=[]
+for i in tablo_soja['Valor US$*']:
+    
+
+    num = str(i)
+    
+    num_str = (str(num))
+    a = int(len(num_str) / 2)
+    nuevos_numeros2.append('{}'.format(num_str[:2]+','+num_str[2:]))
+tablo_soja['Valor US$*']=nuevos_numeros2
+
+
+
+
 url_trigo='https://www.cepea.esalq.usp.br/br/indicador/trigo.aspx'
 tabla_trigo=tabla_soja=pd.read_html(requests.get(url_trigo,headers=header ).text)
 tablo_trigo=tabla_trigo[0]
+nuevos_numeros1=[]
+for i in tablo_trigo['Valor R$/t*']:
+    num = str(i)
+    num_str = (str(num))
+    a = int(len(num_str) / 3)
+        
+    nuevos_numeros1.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
+tablo_trigo['Valor R$/t*']=nuevos_numeros
+nuevos_numeros21=[]
+for i in tablo_trigo['Valor US$/t*']:
+    
+
+    num = str(i)
+    
+    num_str = (str(num))
+    a = int(len(num_str) / 2)
+    nuevos_numeros21.append('{}'.format(num_str[:2]+','+num_str[2:]))      
+tablo_trigo['Valor US$/t*']=nuevos_numeros21
+
+
 
 url_milho='https://www.cepea.esalq.usp.br/br/indicador/milho.aspx'
 tabla_milho=tabla_soja=pd.read_html(requests.get(url_milho,headers=header ).text)
 tablo_milho=tabla_milho[0]
 
+nuevos_numeros2=[]
+for i in tablo_milho['Valor R$*']:
+    num = str(i)
+    num_str = (str(num))
+    a = int(len(num_str) / 3)
+        
+    nuevos_numeros2.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
+tablo_milho['Valor R$*']=nuevos_numeros2
+nuevos_numeros22=[]
+for i in tablo_milho['Valor US$*']:
+    
+
+    num = str(i)
+    
+    num_str = (str(num))
+    a = int(len(num_str) / 2)
+    nuevos_numeros22.append('{}'.format(num_str[:2]+','+num_str[2:]))
+    
+    
+tablo_milho['Valor US$*']=nuevos_numeros22
+
 url_boi='https://www.cepea.esalq.usp.br/br/indicador/boi-gordo.aspx'
 tabla_boi=tabla_soja=pd.read_html(requests.get(url_boi,headers=header ).text)
 tablo_boi=tabla_boi[0]
+nuevos_numeros3=[]
+for i in tablo_boi['Valor R$*']:
+    num = str(i)
+    num_str = (str(num))
+    a = int(len(num_str) / 3)
+        
+    nuevos_numeros3.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
+tablo_boi['Valor R$*']=nuevos_numeros3
+
+nuevos_numeros23=[]
+for i in tablo_boi['Valor US$*']:
+    
+
+    num = str(i)
+    
+    num_str = (str(num))
+    a = int(len(num_str) / 2)
+    nuevos_numeros23.append('{}'.format(num_str[:2]+','+num_str[2:]))
+    
+    
+    
+tablo_boi['Valor US$*']=nuevos_numeros23
 url_bezerro='https://www.cepea.esalq.usp.br/br/indicador/bezerro.aspx'
 tabla_bezerro=tabla_soja=pd.read_html(requests.get(url_bezerro,headers=header ).text)
 tablo_bezerro=tabla_bezerro[0]
 
+nuevos_numeros4=[]
+for i in tablo_bezerro['Valor R$*']:
+    num = str(i)
+    num_str = (str(num))
+    a = int(len(num_str) / 3)
+        
+    nuevos_numeros4.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
+tablo_bezerro['Valor R$*']=nuevos_numeros4
+nuevos_numeros24=[]
+for i in tablo_bezerro['Valor US$*']:
+    
+
+    num = str(i)
+    
+    num_str = (str(num))
+    a = int(len(num_str) / 2)
+    nuevos_numeros24.append('{}'.format(num_str[:2]+','+num_str[2:]))
+    
+   
+    
+tablo_bezerro['Valor US$*']=nuevos_numeros24
 url_algodao='https://www.cepea.esalq.usp.br/br/indicador/algodao.aspx'
 tabla_algodao=pd.tabla_soja=pd.read_html(requests.get(url_algodao,headers=header ).text)
-tablo_rl_algodao=tabla_algodao[0]
+tablo_algodao=tabla_algodao[0]
+
+nuevos_numeros5=[]
+for i in tablo_algodao['Centavos R$/lp']:
+    num = str(i)
+    num_str = (str(num))
+    a = int(len(num_str) / 3)
+        
+    nuevos_numeros5.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
+tablo_algodao['Centavos R$/lp']=nuevos_numeros5
+nuevos_numeros25=[]
+for i in tablo_algodao['Prazo pgto. (dias)']:
+    
+
+    num = str(i)
+    
+    num_str = (str(num))
+    a = int(len(num_str) / 2)
+    nuevos_numeros25.append('{}'.format(num_str[:2]+','+num_str[2:]))
+    
+ 
+tablo_algodao['Prazo pgto. (dias)']=nuevos_numeros25
 
 FONT_AWESOME = "https://use.fontawesome.com/releases/v5.7.2/css/all.css"
 app = dash.Dash(__name__,external_stylesheets=[dbc.themes.LUX,FONT_AWESOME])
@@ -150,59 +279,59 @@ def set_display_children(selected_country, selected_city):
 
 
     if selected_country == 'VAR./DIA' and selected_city=='Soja' :
-        final=tabla_soja[0].iloc[:, :3:2]
+        final=tablo_soja.iloc[:, :3:2]
     elif selected_country=='VALOR R$' and selected_city=='Soja':
-        final=tabla_soja[0].iloc[:, :2:]
+        final=tablo_soja.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Soja':
-        final=tabla_soja[0].iloc[:, 0::3] 
+        final=tablo_soja.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Soja':
-        final=tabla_soja[0].iloc[:, 2:6:2]
+        final=tablo_soja.iloc[:, 2:6:2]
 
 
     elif selected_country == 'VAR./DIA' and selected_city=='Trigo' :
-        final=tabla_trigo[0].iloc[:, :3:2]
+        final=tablo_trig.iloc[:, :3:2]
     elif selected_country=='VALOR R$' and selected_city=='Trigo':
-        final=tabla_trigo[0].iloc[:, :2:]
+        final=tablo_trigo.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Trigo':
-        final=tabla_trigo[0].iloc[:, 0::3] 
+        final=tablo_trigo.loc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Trigo':
-        final=tabla_trigo[0].iloc[:, 2:6:2]
+        final=tablo_trigo.iloc[:, 2:6:2]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Milho' :
-        final=tabla_milho[0].iloc[:, :3:2]
+        final=tablo_milho.iloc[:, :3:2]
     elif selected_country=='VALOR R$' and selected_city=='Milho':
-        final=tabla_milho[0].iloc[:, :2:]
+        final=tablo_milho.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Milho':
-        final=tabla_milho[0].iloc[:, 0::3] 
+        final=tablo_milho.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Boi':
-        final=tabla_milho[0].iloc[:, 2:6:2]
+        final=tablo_milho.iloc[:, 2:6:2]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Boi' :
-        final=tabla_boi[0].iloc[:, :3:2]
+        final=tablo_boi.iloc[:, :3:2]
     elif selected_country=='VALOR R$' and selected_city=='Boi':
-        final=tabla_boi[0].iloc[:, :2:]
+        final=tablo_boi.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Boi':
-        final=tabla_boi[0].iloc[:, 0::3] 
+        final=tablo_boi.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Boi':
-        final=tabla_boi[0].iloc[:, 2:6:2]
+        final=tablo_boi.iloc[:, 2:6:2]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Bezerro' :
-        final=tabla_bezerro[0].iloc[:, :3:2]
+        final=tablo_bezerro.iloc[:, :3:2]
     elif selected_country=='VALOR R$' and selected_city=='Bezerro':
-        final=tabla_bezerro[0].iloc[:, :2:]
+        final=tablo_bezerro.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Bezerro':
-        final=tabla_bezerro[0].iloc[:, 0::3] 
+        final=tablo_bezerro.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Bezerro':
-        final=tabla_bezerro[0].iloc[:, 2:6:2]
+        final=tablo_bezerro.iloc[:, 2:6:2]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Algodao' :
-        final=tabla_algodao[0].iloc[:, :3:2]
+        final=tablo_algodao.iloc[:, :3:2]
     elif selected_country=='VALOR R$' and selected_city=='Algodao':
-        final=tabla_algodao[0].iloc[:, :2:]
+        final=tablo_algodao.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Algodao':
-        final=tabla_algodao[0].iloc[:, 0::3] 
+        final=tablo_algodao.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Algodao':
-        final=tabla_algodao[0].iloc[:, 2:6:2]
+        final=tablo_algodao.iloc[:, 2:6:2]
 
     final = final.rename(columns={'Unnamed: 0': ' '})
     final=final[0:5]
@@ -231,14 +360,26 @@ Output('graph-with-slider',component_property="figure"),
 
 def tabla(selected_country,selected_city,df_del_json):
     grafico=''
+
+    fig=''
+
+        
     data=json.loads(df_del_json)
     columns = data['columns']
     data_dentro=data['data']
     df = pd.DataFrame(data_dentro, columns = columns)
 
     print(df.columns)
-    if selected_country=='VALOR R$' and selected_city=='Soja':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor R$*']}
+    if selected_country=='VALOR R$' and selected_city=='Soja'
+        df = df.set_index(' ')
+        df['Valor R$*']=df['Valor R$*'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Valor R$*'])
+        min=df['Valor R$*'].min()-1
+        max=df['Valor R$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+        
+
+       
     elif selected_country=='VAR./DIA' and selected_city=='Soja':
         grafico={'Dia':df[' '],'Indicadores':df['Var./Dia']}
     elif selected_country=='VAR./MES' and selected_city=='Soja':
@@ -287,10 +428,7 @@ def tabla(selected_country,selected_city,df_del_json):
         grafico={'Dia':df[' '],'Indicadores':df['Valor US$*']}
    
 
-    dfg=pd.DataFrame(grafico)
-    print(df.head(5))
-
-    fig=px.bar(data_frame=dfg,x='Dia',y='Indicadores')
+  
     return fig
     
 
