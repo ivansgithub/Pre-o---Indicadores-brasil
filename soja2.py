@@ -289,7 +289,7 @@ def set_display_children(selected_country, selected_city):
 
 
     elif selected_country == 'VAR./DIA' and selected_city=='Trigo' :
-        final=tablo_trig.iloc[:, :3:2]
+        final=tablo_trigo.iloc[:, :3:2]
     elif selected_country=='VALOR R$' and selected_city=='Trigo':
         final=tablo_trigo.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Trigo':
@@ -370,7 +370,7 @@ def tabla(selected_country,selected_city,df_del_json):
     df = pd.DataFrame(data_dentro, columns = columns)
 
     print(df.columns)
-    if selected_country=='VALOR R$' and selected_city=='Soja'
+    if selected_country=='VALOR R$' and selected_city=='Soja':
         df = df.set_index(' ')
         df['Valor R$*']=df['Valor R$*'].str.replace(',','.').astype(float)
         fig = px.bar(x=df.index, y=df['Valor R$*'])
