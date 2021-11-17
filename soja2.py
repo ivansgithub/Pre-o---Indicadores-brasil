@@ -381,7 +381,12 @@ def tabla(selected_country,selected_city,df_del_json):
 
        
     elif selected_country=='VAR./DIA' and selected_city=='Soja':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Dia']}
+        df = df.set_index(' ')
+        df['Var./Dia']=df['Var./Dia'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Var./Dia'])
+        min=df['Var./Dia'].min()-1
+        max=df['Var./Dia'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./MES' and selected_city=='Soja':
         grafico={'Dia':df[' '],'Indicadores':df['Var./Mês']}
     elif selected_country=='VALOR US$' and selected_city=='Soja':
