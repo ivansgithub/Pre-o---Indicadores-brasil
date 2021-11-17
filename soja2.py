@@ -285,7 +285,7 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VAR./MES' and selected_city=='Soja':
         final=tablo_soja.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Soja':
-        final=tablo_soja.iloc[:, 2:6:2]
+        final=tablo_soja.iloc[:, 0:7:4]
 
 
     elif selected_country == 'VAR./DIA' and selected_city=='Trigo' :
@@ -295,7 +295,7 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VAR./MES' and selected_city=='Trigo':
         final=tablo_trigo.loc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Trigo':
-        final=tablo_trigo.iloc[:, 2:6:2]
+        final=tablo_trigo.iloc[:, 0:7:4]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Milho' :
         final=tablo_milho.iloc[:, :3:2]
@@ -304,7 +304,7 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VAR./MES' and selected_city=='Milho':
         final=tablo_milho.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Boi':
-        final=tablo_milho.iloc[:, 2:6:2]
+        final=tablo_milho.iloc[:, 0:7:4]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Boi' :
         final=tablo_boi.iloc[:, :3:2]
@@ -313,7 +313,7 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VAR./MES' and selected_city=='Boi':
         final=tablo_boi.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Boi':
-        final=tablo_boi.iloc[:, 2:6:2]
+        final=tablo_boi.iloc[:, 0:7:4]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Bezerro' :
         final=tablo_bezerro.iloc[:, :3:2]
@@ -322,7 +322,7 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VAR./MES' and selected_city=='Bezerro':
         final=tablo_bezerro.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Bezerro':
-        final=tablo_bezerro.iloc[:, 2:6:2]
+        final=tablo_bezerro.iloc[:, 0:7:4]
 
     elif selected_country == 'VAR./DIA' and selected_city=='Algodao' :
         final=tablo_algodao.iloc[:, :3:2]
@@ -331,7 +331,7 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VAR./MES' and selected_city=='Algodao':
         final=tablo_algodao.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Algodao':
-        final=tablo_algodao.iloc[:, 2:6:2]
+        final=tablo_algodao.iloc[:, 0:7:4]
 
     final = final.rename(columns={'Unnamed: 0': ' '})
     final=final[0:5]
