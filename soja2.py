@@ -373,10 +373,10 @@ def tabla(selected_country,selected_city,df_del_json):
     columns = data['columns']
     data_dentro=data['data']
     df = pd.DataFrame(data_dentro, columns = columns)
+    
+    df.sort_values(by=[' '], inplace=True)
 
-    print(df)
-    print(selected_country)
-    print(selected_city)
+  
     if selected_country=='VALOR R$' and selected_city=='Soja':
         df = df.set_index(' ')
         df['Valor R$*']=df['Valor R$*'].str.replace(',','.').astype(float)
