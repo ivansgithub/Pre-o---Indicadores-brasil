@@ -130,7 +130,7 @@ for i in tablo_bezerro['Valor R$*']:
     num = str(i)
     num_str = (str(num))
     if len(num_str) > 5:
-        nuevos_numeros4.append('{}'.format(num_str[:5]+','+num_str[5:9]))
+        nuevos_numeros4.append('{}'.format(num_str[:5]+num_str[5:9]))
     else:
         nuevos_numeros4.append(num_str)
     
