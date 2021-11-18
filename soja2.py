@@ -55,7 +55,7 @@ for i in tablo_trigo['Valor R$/t*']:
     num_str = (str(num))
     
         
-    nuevos_numeros1.append('{}'.format(num_str[:5]+','+num_str[5:8]))
+    nuevos_numeros1.append('{}'.format(num_str[:5]+num_str[5:8]))
 tablo_trigo['Valor R$/t*']=nuevos_numeros1
 
 nuevos_numeros21=[]
