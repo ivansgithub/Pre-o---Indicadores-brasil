@@ -48,14 +48,16 @@ tablo_soja['Valor US$*']=nuevos_numeros2
 url_trigo='https://www.cepea.esalq.usp.br/br/indicador/trigo.aspx'
 tabla_trigo=tabla_soja=pd.read_html(requests.get(url_trigo,headers=header ).text)
 tablo_trigo=tabla_trigo[0]
+
 nuevos_numeros1=[]
 for i in tablo_trigo['Valor R$/t*']:
     num = str(i)
     num_str = (str(num))
-    a = int(len(num_str) / 3)
+    
         
-    nuevos_numeros1.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
-tablo_trigo['Valor R$/t*']=nuevos_numeros
+    nuevos_numeros1.append('{}'.format(num_str[:5]+','+num_str[5:8]))
+tablo_trigo['Valor R$/t*']=nuevos_numeros1
+
 nuevos_numeros21=[]
 for i in tablo_trigo['Valor US$/t*']:
     
@@ -127,9 +129,9 @@ nuevos_numeros4=[]
 for i in tablo_bezerro['Valor R$*']:
     num = str(i)
     num_str = (str(num))
-    a = int(len(num_str) / 3)
+    
         
-    nuevos_numeros4.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
+    nuevos_numeros4.append('{}'.format(num_str[:5]+','+num_str[5:8]))
 tablo_bezerro['Valor R$*']=nuevos_numeros4
 nuevos_numeros24=[]
 for i in tablo_bezerro['Valor US$*']:
@@ -152,9 +154,10 @@ nuevos_numeros5=[]
 for i in tablo_algodao['Centavos R$/lp']:
     num = str(i)
     num_str = (str(num))
-    a = int(len(num_str) / 3)
+    a = int(len(num_str) / 2)
+    nuevos_numeros5.append('{}'.format(num_str[:3]+','+num_str[3:]))
+    
         
-    nuevos_numeros5.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
 tablo_algodao['Centavos R$/lp']=nuevos_numeros5
 nuevos_numeros25=[]
 for i in tablo_algodao['Prazo pgto. (dias)']:
@@ -163,8 +166,8 @@ for i in tablo_algodao['Prazo pgto. (dias)']:
     num = str(i)
     
     num_str = (str(num))
-    a = int(len(num_str) / 2)
-    nuevos_numeros25.append('{}'.format(num_str[:2]+','+num_str[2:]))
+    
+    nuevos_numeros25.append('{}'.format(num_str[:1]+','+num_str[1:8]))
     
  
 tablo_algodao['Prazo pgto. (dias)']=nuevos_numeros25
@@ -272,10 +275,9 @@ def set_cities_value(available_options):
     [dash.dependencies.Input('countries-dropdown', 'value'),
      dash.dependencies.Input('cities-dropdown', 'value')])
 def set_display_children(selected_country, selected_city):
+    final=''
 
-    print(selected_country)
-
-            
+          
 
 
     if selected_country == 'VAR./DIA' and selected_city=='Soja' :
@@ -293,7 +295,7 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VALOR R$' and selected_city=='Trigo':
         final=tablo_trigo.iloc[:, :2:]
     elif selected_country=='VAR./MES' and selected_city=='Trigo':
-        final=tablo_trigo.loc[:, 0::3] 
+        final=tablo_trigo.iloc[:, 0::3] 
     elif selected_country=='VALOR US$' and selected_city=='Trigo':
         final=tablo_trigo.iloc[:, 0:7:4]
 
@@ -333,7 +335,9 @@ def set_display_children(selected_country, selected_city):
     elif selected_country=='VALOR US$' and selected_city=='Algodao':
         final=tablo_algodao.iloc[:, 0:7:4]
 
+    print(final)
     final = final.rename(columns={'Unnamed: 0': ' '})
+    
     final=final[0:5]
 
     return dash_table.DataTable(
@@ -362,6 +366,7 @@ def tabla(selected_country,selected_city,df_del_json):
     grafico=''
 
     fig=''
+   
 
         
     data=json.loads(df_del_json)
@@ -369,7 +374,9 @@ def tabla(selected_country,selected_city,df_del_json):
     data_dentro=data['data']
     df = pd.DataFrame(data_dentro, columns = columns)
 
-    print(df.columns)
+    print(df)
+    print(selected_country)
+    print(selected_city)
     if selected_country=='VALOR R$' and selected_city=='Soja':
         df = df.set_index(' ')
         df['Valor R$*']=df['Valor R$*'].str.replace(',','.').astype(float)
@@ -382,55 +389,231 @@ def tabla(selected_country,selected_city,df_del_json):
        
     elif selected_country=='VAR./DIA' and selected_city=='Soja':
         df = df.set_index(' ')
-        df['Var./Dia']=df['Var./Dia'].str.replace(',','.').astype(float)
+        df['Var./Dia']=df['Var./Dia'].str.replace(',','.')
+        df['Var./Dia']=df['Var./Dia'].str.replace('%','')
+        df['Var./Dia']=df['Var./Dia'].astype(float)
+        
         fig = px.bar(x=df.index, y=df['Var./Dia'])
         min=df['Var./Dia'].min()-1
         max=df['Var./Dia'].max()+1
         fig.update(layout_yaxis_range =[min,max])
+        
+
+
     elif selected_country=='VAR./MES' and selected_city=='Soja':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Mês']}
+        df = df.set_index(' ')
+        df['Var./Mês']=df['Var./Mês'].str.replace(',','.')
+        df['Var./Mês']=df['Var./Mês'].str.replace('%','')
+        df['Var./Mês']=df['Var./Mês'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Mês'])
+        min=df['Var./Mês'].min()-1
+        max=df['Var./Mês'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+
     elif selected_country=='VALOR US$' and selected_city=='Soja':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor US$*']}
-    elif selected_country=='Valor R$' and selected_city=='Trigo':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor R$*']}
+        df = df.set_index(' ')
+        df['Valor US$*']=df['Valor US$*'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Valor US$*'])
+        min=df['Valor US$*'].min()-1
+        max=df['Valor US$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+        
+
+
+    elif selected_country=='VALOR R$' and selected_city=='Trigo':
+        
+        df = df.set_index(' ')
+        df['Valor R$/t*']=df['Valor R$/t*'].str.replace('.','')
+        df['Valor R$/t*']=df['Valor R$/t*'].str.replace(',','.').astype(float)
+      
+        fig = px.bar(x=df.index, y=df['Valor R$/t*'])
+        min=df['Valor R$/t*'].min()-1
+        max=df['Valor R$/t*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+        
+
+
     elif selected_country=='VAR./DIA' and selected_city=='Trigo':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Dia']}
+        df = df.set_index(' ')
+        df['Var./Dia']=df['Var./Dia'].str.replace(',','.')
+        df['Var./Dia']=df['Var./Dia'].str.replace('%','')
+        df['Var./Dia']=df['Var./Dia'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Dia'])
+        min=df['Var./Dia'].min()-1
+        max=df['Var./Dia'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./MES' and selected_city=='Trigo':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Mês']}
+        df = df.set_index(' ')
+        df['Var./Mês']=df['Var./Mês'].str.replace(',','.')
+        df['Var./Mês']=df['Var./Mês'].str.replace('%','')
+        df['Var./Mês']=df['Var./Mês'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Mês'])
+        min=df['Var./Mês'].min()-1
+        max=df['Var./Mês'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+        
+
     elif selected_country=='VALOR US$' and selected_city=='Trigo':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor US$*']}
-    elif selected_country=='Valor R$' and selected_city=='Milho':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor R$*']}
+        df = df.set_index(' ')
+        df['Valor US$/t*']=df['Valor US$/t*'].str.replace('.','')
+        df['Valor US$/t*']=df['Valor US$/t*'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Valor US$/t*'])
+        min=df['Valor US$/t*'].min()-1
+        max=df['Valor US$/t*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+
+        
+    elif selected_country=='VALOR R$' and selected_city=='Milho':
+        df = df.set_index(' ')
+        df['Valor R$*']=df['Valor R$*'].str.replace('.','')
+        df['Valor R$*']=df['Valor R$*'].str.replace(',','.').astype(float)
+      
+        fig = px.bar(x=df.index, y=df['Valor R$*'])
+        min=df['Valor R$*'].min()-1
+        max=df['Valor R$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./DIA' and selected_city=='Milho':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Dia']}
+        df = df.set_index(' ')
+        df['Var./Dia']=df['Var./Dia'].str.replace(',','.')
+        df['Var./Dia']=df['Var./Dia'].str.replace('%','')
+        df['Var./Dia']=df['Var./Dia'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Dia'])
+        min=df['Var./Dia'].min()-1
+        max=df['Var./Dia'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./MES' and selected_city=='Milho':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Mês']}
+        df = df.set_index(' ')
+        df['Var./Mês']=df['Var./Mês'].str.replace(',','.')
+        df['Var./Mês']=df['Var./Mês'].str.replace('%','')
+        df['Var./Mês']=df['Var./Mês'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Mês'])
+        min=df['Var./Mês'].min()-1
+        max=df['Var./Mês'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VALOR US$' and selected_city=='Milho':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor US$*']}
-    elif selected_country=='Valor R$' and selected_city=='Boi':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor R$*']}
+        df = df.set_index(' ')
+
+        df['Valor US$*']=df['Valor US$*'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Valor US$*'])
+        min=df['Valor US$*'].min()-1
+        max=df['Valor US$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+
+    elif selected_country=='VALOR R$' and selected_city=='Boi':
+        df = df.set_index(' ')
+        df['Valor R$*']=df['Valor R$*'].str.replace('.','')
+        df['Valor R$*']=df['Valor R$*'].str.replace(',','.').astype(float)
+      
+        fig = px.bar(x=df.index, y=df['Valor R$*'])
+        min=df['Valor R$*'].min()-1
+        max=df['Valor R$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./DIA' and selected_city=='Boi':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Dia']}
+        df = df.set_index(' ')
+        df['Var./Dia']=df['Var./Dia'].str.replace(',','.')
+        df['Var./Dia']=df['Var./Dia'].str.replace('%','')
+        df['Var./Dia']=df['Var./Dia'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Dia'])
+        min=df['Var./Dia'].min()-1
+        max=df['Var./Dia'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+
     elif selected_country=='VAR./MES' and selected_city=='Boi':
-        grafico={'Dia':df[' '],'Indicadore':df['Var./Mês']}
+        df = df.set_index(' ')
+        df['Var./Mês']=df['Var./Mês'].str.replace(',','.')
+        df['Var./Mês']=df['Var./Mês'].str.replace('%','')
+        df['Var./Mês']=df['Var./Mês'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Mês'])
+        min=df['Var./Mês'].min()-1
+        max=df['Var./Mês'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VALOR US$' and selected_city=='Boi':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor US$*']}
-    elif selected_country=='Valor R$' and selected_city=='Bezerro':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor R$*']}
+        df = df.set_index(' ')
+        df['Valor US$*']=df['Valor US$*'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Valor US$*'])
+        min=df['Valor US$*'].min()-1
+        max=df['Valor US$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+    elif selected_country=='VALOR R$' and selected_city=='Bezerro':
+        df = df.set_index(' ')
+        df['Valor R$*']=df['Valor R$*'].str.replace('.','')
+        df['Valor R$*']=df['Valor R$*'].str.replace(',','.').astype(float)
+      
+        fig = px.bar(x=df.index, y=df['Valor R$*'])
+        min=df['Valor R$*'].min()-1
+        max=df['Valor R$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./DIA' and selected_city=='Bezerro':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Dia']}
+        df = df.set_index(' ')
+        df['Var./Dia']=df['Var./Dia'].str.replace(',','.')
+        df['Var./Dia']=df['Var./Dia'].str.replace('%','')
+        df['Var./Dia']=df['Var./Dia'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Dia'])
+        min=df['Var./Dia'].min()-1
+        max=df['Var./Dia'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./MES' and selected_city=='Bezerro':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Mês']}
+        df = df.set_index(' ')
+        df['Var./Mês']=df['Var./Mês'].str.replace(',','.')
+        df['Var./Mês']=df['Var./Mês'].str.replace('%','')
+        df['Var./Mês']=df['Var./Mês'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Mês'])
+        min=df['Var./Mês'].min()-1
+        max=df['Var./Mês'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VALOR US$' and selected_city=='Bezerro':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor US$*']}
-    elif selected_country=='Valor R$' and selected_city=='Algodao':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor R$*']}
+        df = df.set_index(' ')
+        df['Valor US$*']=df['Valor US$*'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Valor US$*'])
+        min=df['Valor US$*'].min()-1
+        max=df['Valor US$*'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
+        
+    elif selected_country=='VALOR R$' and selected_city=='Algodao':
+        df = df.set_index(' ')
+        df['Centavos R$/lp']=df['Centavos R$/lp'].str.replace('.','')
+        df['Centavos R$/lp']=df['Centavos R$/lp'].str.replace(',','.').astype(float)
+      
+        fig = px.bar(x=df.index, y=df['Centavos R$/lp'])
+        min=df['Centavos R$/lp'].min()-1
+        max=df['Centavos R$/lp'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./DIA' and selected_city=='Algodao':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Dia']}
+        df = df.set_index(' ')
+        df['Var./Dia']=df['Var./Dia'].str.replace(',','.')
+        df['Var./Dia']=df['Var./Dia'].str.replace('%','')
+        df['Var./Dia']=df['Var./Dia'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Dia'])
+        min=df['Var./Dia'].min()-1
+        max=df['Var./Dia'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VAR./MES' and selected_city=='Algodao':
-        grafico={'Dia':df[' '],'Indicadores':df['Var./Mês']}
+        df = df.set_index(' ')
+        df['Var./Mês']=df['Var./Mês'].str.replace(',','.')
+        df['Var./Mês']=df['Var./Mês'].str.replace('%','')
+        df['Var./Mês']=df['Var./Mês'].astype(float)
+        
+        fig = px.bar(x=df.index, y=df['Var./Mês'])
+        min=df['Var./Mês'].min()-1
+        max=df['Var./Mês'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
     elif selected_country=='VALOR US$' and selected_city=='Algodao':
-        grafico={'Dia':df[' '],'Indicadores':df['Valor US$*']}
+        df = df.set_index(' ')
+        df['Prazo pgto. (dias)']=df['Prazo pgto. (dias)'].str.replace(',','.').astype(float)
+        fig = px.bar(x=df.index, y=df['Prazo pgto. (dias)'])
+        min=df['Prazo pgto. (dias)'].min()-1
+        max=df['Prazo pgto. (dias)'].max()+1
+        fig.update(layout_yaxis_range =[min,max])
    
 
   
