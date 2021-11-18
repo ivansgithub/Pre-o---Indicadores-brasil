@@ -41,7 +41,7 @@ for i in tablo_soja['Valor US$*']:
     a = int(len(num_str) / 2)
     nuevos_numeros2.append('{}'.format(num_str[:2]+','+num_str[2:]))
 tablo_soja['Valor US$*']=nuevos_numeros2
-
+tablo_soja['Unnamed: 0']=tablo_soja['Unnamed: 0'].str.replace('/2021','/21')
 
 
 
@@ -68,6 +68,8 @@ for i in tablo_trigo['Valor US$/t*']:
     a = int(len(num_str) / 2)
     nuevos_numeros21.append('{}'.format(num_str[:2]+','+num_str[2:]))      
 tablo_trigo['Valor US$/t*']=nuevos_numeros21
+
+tablo_trigo['Unnamed: 0']=tablo_trigo['Unnamed: 0'].str.replace('/2021','/21')
 
 
 
@@ -96,6 +98,8 @@ for i in tablo_milho['Valor US$*']:
     
 tablo_milho['Valor US$*']=nuevos_numeros22
 
+tablo_milho['Unnamed: 0']=tablo_milho['Unnamed: 0'].str.replace('/2021','/21')
+
 url_boi='https://www.cepea.esalq.usp.br/br/indicador/boi-gordo.aspx'
 tabla_boi=tabla_soja=pd.read_html(requests.get(url_boi,headers=header ).text)
 tablo_boi=tabla_boi[0]
@@ -121,6 +125,10 @@ for i in tablo_boi['Valor US$*']:
     
     
 tablo_boi['Valor US$*']=nuevos_numeros23
+tablo_boi['Unnamed: 0']=tablo_boi['Unnamed: 0'].str.replace('/2021','/21')
+
+
+
 url_bezerro='https://www.cepea.esalq.usp.br/br/indicador/bezerro.aspx'
 tabla_bezerro=tabla_soja=pd.read_html(requests.get(url_bezerro,headers=header ).text)
 tablo_bezerro=tabla_bezerro[0]
@@ -147,9 +155,11 @@ for i in tablo_bezerro['Valor US$*']:
     
     nuevos_numeros24.append('{}'.format(num_str[:2]+','+num_str[2:]))
     
-   
-    
-tablo_bezerro['Valor US$*']=nuevos_numeros24
+  
+tablo_bezerro['Valor US$*']=nuevos_numeros2
+ttablo_bezerro['Unnamed: 0']=tablo_bezerro['Unnamed: 0'].str.replace('/2021','/21')
+
+
 url_algodao='https://www.cepea.esalq.usp.br/br/indicador/algodao.aspx'
 tabla_algodao=pd.tabla_soja=pd.read_html(requests.get(url_algodao,headers=header ).text)
 tablo_algodao=tabla_algodao[0]
@@ -175,6 +185,8 @@ for i in tablo_algodao['Prazo pgto. (dias)']:
     
  
 tablo_algodao['Prazo pgto. (dias)']=nuevos_numeros25
+
+tablo_algodao['Unnamed: 0']=tablo_algodao['Unnamed: 0'].str.replace('/2021','/21')
 
 FONT_AWESOME = "https://use.fontawesome.com/releases/v5.7.2/css/all.css"
 app = dash.Dash(__name__,external_stylesheets=[dbc.themes.LUX,FONT_AWESOME])
