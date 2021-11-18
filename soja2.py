@@ -157,7 +157,7 @@ for i in tablo_bezerro['Valor US$*']:
     
   
 tablo_bezerro['Valor US$*']=nuevos_numeros2
-ttablo_bezerro['Unnamed: 0']=tablo_bezerro['Unnamed: 0'].str.replace('/2021','/21')
+tablo_bezerro['Unnamed: 0']=tablo_bezerro['Unnamed: 0'].str.replace('/2021','/21')
 
 
 url_algodao='https://www.cepea.esalq.usp.br/br/indicador/algodao.aspx'
