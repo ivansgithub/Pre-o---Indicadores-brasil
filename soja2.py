@@ -28,7 +28,7 @@ for i in tablo_soja['Valor R$*']:
         
     nuevos_numeros.append('{}'.format(num_str[:3*a]+','+num_str[3*a:]))
 tablo_soja['Valor R$*']=nuevos_numeros
-
+tablo_soja['Unnamed: 0']=tablo_soja['Unnamed: 0'].str.replace('/2021','/21')
 
 
 nuevos_numeros2=[]
@@ -41,7 +41,7 @@ for i in tablo_soja['Valor US$*']:
     a = int(len(num_str) / 2)
     nuevos_numeros2.append('{}'.format(num_str[:2]+','+num_str[2:]))
 tablo_soja['Valor US$*']=nuevos_numeros2
-tablo_soja['Unnamed: 0']=tablo_soja['Unnamed: 0'].str.replace('/2021','/21')
+
 
 
 
@@ -55,7 +55,7 @@ for i in tablo_trigo['Valor R$/t*']:
     num_str = (str(num))
     
         
-    nuevos_numeros1.append('{}'.format(num_str[:5]+num_str[5:8]))
+    nuevos_numeros1.append('{}'.format(num_str[:5]+','+num_str[5:8]))
 tablo_trigo['Valor R$/t*']=nuevos_numeros1
 
 nuevos_numeros21=[]
@@ -68,9 +68,7 @@ for i in tablo_trigo['Valor US$/t*']:
     a = int(len(num_str) / 2)
     nuevos_numeros21.append('{}'.format(num_str[:2]+','+num_str[2:]))      
 tablo_trigo['Valor US$/t*']=nuevos_numeros21
-
 tablo_trigo['Unnamed: 0']=tablo_trigo['Unnamed: 0'].str.replace('/2021','/21')
-
 
 
 url_milho='https://www.cepea.esalq.usp.br/br/indicador/milho.aspx'
@@ -97,7 +95,6 @@ for i in tablo_milho['Valor US$*']:
     
     
 tablo_milho['Valor US$*']=nuevos_numeros22
-
 tablo_milho['Unnamed: 0']=tablo_milho['Unnamed: 0'].str.replace('/2021','/21')
 
 url_boi='https://www.cepea.esalq.usp.br/br/indicador/boi-gordo.aspx'
@@ -126,9 +123,6 @@ for i in tablo_boi['Valor US$*']:
     
 tablo_boi['Valor US$*']=nuevos_numeros23
 tablo_boi['Unnamed: 0']=tablo_boi['Unnamed: 0'].str.replace('/2021','/21')
-
-
-
 url_bezerro='https://www.cepea.esalq.usp.br/br/indicador/bezerro.aspx'
 tabla_bezerro=tabla_soja=pd.read_html(requests.get(url_bezerro,headers=header ).text)
 tablo_bezerro=tabla_bezerro[0]
@@ -138,7 +132,7 @@ for i in tablo_bezerro['Valor R$*']:
     num = str(i)
     num_str = (str(num))
     if len(num_str) > 5:
-        nuevos_numeros4.append('{}'.format(num_str[:5]+num_str[5:9]))
+        nuevos_numeros4.append('{}'.format(num_str[:5]+','+num_str[5:9]))
     else:
         nuevos_numeros4.append(num_str)
     
@@ -155,11 +149,10 @@ for i in tablo_bezerro['Valor US$*']:
     
     nuevos_numeros24.append('{}'.format(num_str[:2]+','+num_str[2:]))
     
-  
-tablo_bezerro['Valor US$*']=nuevos_numeros2
+   
+    
+tablo_bezerro['Valor US$*']=nuevos_numeros24
 tablo_bezerro['Unnamed: 0']=tablo_bezerro['Unnamed: 0'].str.replace('/2021','/21')
-
-
 url_algodao='https://www.cepea.esalq.usp.br/br/indicador/algodao.aspx'
 tabla_algodao=pd.tabla_soja=pd.read_html(requests.get(url_algodao,headers=header ).text)
 tablo_algodao=tabla_algodao[0]
@@ -185,11 +178,12 @@ for i in tablo_algodao['Prazo pgto. (dias)']:
     
  
 tablo_algodao['Prazo pgto. (dias)']=nuevos_numeros25
-
 tablo_algodao['Unnamed: 0']=tablo_algodao['Unnamed: 0'].str.replace('/2021','/21')
 
 FONT_AWESOME = "https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.LUX,FONT_AWESOME])
+app = dash.Dash(__name__,external_stylesheets=[dbc.themes.LUX,FONT_AWESOME],meta_tags=[
+        {"name": "viewport", "content": "width=device-width, initial-scale=1"}
+    ],)
 server=app.server
 
 
@@ -218,7 +212,7 @@ app.layout = html.Div([
                     # 'width': '50%',                  
                     'font-size': '15px',
                     'textAlign': 'center'}),
-    width=6, md={'size':4,'offset':4}),className='mb-4',),),
+    width=6, md={'size':4,'offset':4},xs={'size':6,'offset':3}),className='mb-4',),),
         
     
 
@@ -231,16 +225,16 @@ app.layout = html.Div([
                     # 'width': '50%',                  
                     'font-size': '15px',
                     'textAlign': 'center'}  ), 
-    width=6,md={'size':4,'offset':4}),className='mb-4',),),
+    width=6,md={'size':4,'offset':4},xs={'size':6,'offset':3}),className='mb-4',),),
 
     
 
     dbc.Row(dbc.Col(html.Div(id='display-selected-values', className="text-center",style={    
                     'color': '#565555',  
-                    'font-size': '30px',
+                    #'font-size': '30px',
                     'font': 'sans-serif',
                     'font-weight': 'bolder',
-                    } ),width=12,md={'size':4,'offset':4},className='mb-4',),),
+                    } ),width=12,md={'size':4,'offset':4,'font-size':'30px'},xs={'size':4,'offset':3,'font-size':'15px'},className='mb-4',),),
 
     dcc.Store(id='display-selected-values2'),
 
@@ -357,4 +351,5 @@ def set_display_children(selected_country, selected_city):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+    
     
